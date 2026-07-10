@@ -83,6 +83,26 @@
   }
   .reset-btn:hover{ background:rgba(255,244,225,0.12); border-color:var(--cream); }
 
+  @media (max-width: 640px){
+    header.topbar{ padding:12px 16px; gap:10px; }
+    header.topbar h1{ font-size:16px; line-height:1.35; }
+    .topbar-row1{ flex-direction:column; align-items:stretch; gap:10px; }
+    .controls{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .controls select{ width:100%; font-size:12.5px; padding:7px 8px; }
+    .reset-btn{ grid-column:span 2; font-size:12.5px; padding:7px 8px; }
+    .topbar-row2{ flex-wrap:wrap; gap:6px; }
+    .metric-row-label{ width:100%; }
+    .metric-toggle{ display:flex; flex-wrap:wrap; gap:6px; }
+    .metric-btn-header{ font-size:11.5px; padding:6px 10px; }
+    .breadcrumb{ padding:12px 16px 4px; flex-wrap:wrap; row-gap:8px; }
+    .crumb{ font-size:11.5px; padding:6px 10px; }
+    .crumb-arrow{ margin:0 4px; }
+    main{ padding:6px 16px 40px; }
+    .block-head h2{ font-size:17px; }
+    .kpi .val{ font-size:22px; }
+    .chart-wrap.tall{ height:280px; }
+  }
+
   .status-dot{
     width:8px;height:8px;border-radius:50%;
     background:#7FB0A2; display:inline-block; margin-inline-end:6px;
@@ -513,7 +533,7 @@ function renderCountryTrend(){
       layout:{ padding:{top:26} },
       plugins:{
         legend:{ display:false },
-        datalabels:{ display:true, align:'top', anchor:'end', color:metric.color, font:{family:'Sarabun', weight:'600', size:12},
+        datalabels:{ display:'auto', align:'top', anchor:'end', color:metric.color, font:{family:'Sarabun', weight:'600', size:11}, clamp:true,
           formatter:(v)=> v==null? '' : fmt(v)+'%' }
       },
       scales:{ y:{ title:{display:true, text:'ร้อยละ'}, ticks:{font:{family:'IBM Plex Mono'}} }, x:{ offset:true, ticks:{font:{family:'Sarabun'}} } }
@@ -544,7 +564,7 @@ function renderRegionBar(){
       onClick:(evt, elements)=>{ if(elements.length){ const idx = elements[0].index; setRegion(String(rows[idx].region)); } },
       plugins:{
         legend:{display:false}, tooltip:{ callbacks:{ label:(c)=> c.formattedValue+'%' } },
-        datalabels:{ display:true, anchor:'end', align:'top', color:'#122420', font:{family:'Sarabun', weight:'600', size:11},
+        datalabels:{ display:'auto', anchor:'end', align:'top', color:'#122420', font:{family:'Sarabun', weight:'600', size:10}, clamp:true,
           formatter:(v)=> fmt(v)+'%' }
       },
       scales:{ y:{ title:{display:true, text:'ร้อยละ'} }, x:{ ticks:{font:{family:'Sarabun'}} } },
