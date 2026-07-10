@@ -295,8 +295,8 @@ function tryLoadCSV(){
   Papa.parse(CSV_URL, {
     download:true, header:true, dynamicTyping:true,
     complete: (res)=>{
-      const rows = res.data.filter(r=>r.year);
-      if(rows.length===0){ loadEmbedded(); return; }
+      const rows = res.data.filter(r=>r['ปี']||r.year);
+      if(rows.length===0){ document.getElementById('statusText').textContent='โหลดสำเร็จแต่อ่านคอลัมน์ไม่ตรง ใช้ข้อมูลตัวอย่างแทน'; document.getElementById('statusDot').classList.add('offline'); loadEmbedded(); return; }
       RAW = rows.map(r=>({
         year:r['ปี']||r.year, level:r['ระดับ']||r.level, region:r['เขต']||r.region,
         province:r['จังหวัด']||r.province, province_en:r['Province']||r.province_en,
