@@ -332,10 +332,10 @@
               <tr>
                 <th data-key="province">จังหวัด</th>
                 <th data-key="region">เขต</th>
-                <th class="num" data-key="screen_pct">การคัดกรองการบริโภคผลิตภัณฑ์ยาสูบ %</th>
-                <th class="num" data-key="smoker_pct">ผู้เสพติดผลิตภัณฑ์ยาสูบทุกประเภท %</th>
-                <th class="num" data-key="treat_pct">เข้าสู่ระบบบำบัดรักษา %</th>
-                <th class="num" data-key="quit_pct">เลิกสำเร็จต่อเนื่อง 6 เดือน %</th>
+                <th class="num" data-key="screen_pct">คัดกรอง %</th>
+                <th class="num" data-key="smoker_pct">ผู้สูบบุหรี่ %</th>
+                <th class="num" data-key="treat_pct">เข้าสู่ระบบบำบัด %</th>
+                <th class="num" data-key="quit_pct">เลิกสำเร็จ %</th>
               </tr>
             </thead>
             <tbody id="provTableBody"></tbody>
@@ -849,6 +849,7 @@ function renderTobaccoBreakdown(){
     type:'bar',
     data:{ labels:cats, datasets:[{ data:countryRows.map(r=>r.pct), backgroundColor:colors, borderRadius:5 }] },
     options:{ responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{top:24} },
       plugins:{ legend:{display:false}, datalabels:{ display:'auto', anchor:'end', align:'top', color:'#122420', font:{family:'Sarabun', weight:'600', size:11}, formatter:(v)=>fmt(v)+'%' } },
       scales:{ y:{ title:{display:true, text:'ร้อยละ'} }, x:{ ticks:{font:{family:'Sarabun', size:10.5}} } }
     }
