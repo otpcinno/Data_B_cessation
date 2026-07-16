@@ -350,7 +350,7 @@
 <footer>
   <div>จัดทำโดย กองงานคณะกรรมการควบคุมผลิตภัณฑ์ยาสูบ กรมควบคุมโรค · โทร: 0 2195 5803</div>
   <div>แหล่งที่มาข้อมูล : ระบบคลังข้อมูลการแพทย์และสุขภาพ (HDC)</div>
-  <div>วันที่อัปเดตข้อมูล : 11/03/2569</div>
+  <div>วันที่อัปเดตข้อมูล : <span id="lastUpdatedDate">11/03/2569</span></div>
   <div class="admin-note"><span class="status-dot" id="statusDot"></span><span id="statusText">ใช้ข้อมูลตัวอย่างที่ฝังไว้ในไฟล์</span></div>
 </footer>
 
@@ -367,6 +367,7 @@
    ============================================================ */
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/1U6cGERpx3Gl_r_UTe_SHY90_1hsNaZRbYa-F_5wIOKM/gviz/tq?tqx=out:csv&gid=718932748'; // <-- วางลิงก์ CSV ที่ publish แล้วตรงนี้
 const TOBACCO_CSV_URL = 'https://docs.google.com/spreadsheets/d/1U6cGERpx3Gl_r_UTe_SHY90_1hsNaZRbYa-F_5wIOKM/gviz/tq?tqx=out:csv&gid=2078976340';
+const META_CSV_URL = 'https://docs.google.com/spreadsheets/d/1U6cGERpx3Gl_r_UTe_SHY90_1hsNaZRbYa-F_5wIOKM/gviz/tq?tqx=out:csv&gid=1608469910';
 
 const METRICS = [
   {key:'screen', label:'การคัดกรองการบริโภคผลิตภัณฑ์ยาสูบ', color:'#1F7A5C'},
@@ -871,6 +872,31 @@ function renderTobaccoBreakdown(){
   });
 }
 
+function loadMetaCSV(){
+  if(!META_CSV_URL) return;
+  Papa.parse(META_CSV_URL, {
+    download:true, header:false,
+    complete:(res)=>{
+      const rows = res.data;
+      let raw = null;
+      for(const r of rows){ if(r[0] && r[0].toString().includes('อัปเดต')){ raw = r[1]; break; } }
+      if(!raw && rows[0]) raw = rows[0][1];
+      if(!raw) return;
+      const d = new Date(raw);
+      let text = raw;
+      if(!isNaN(d.getTime())){
+        const be = d.getFullYear()+543;
+        const pad = n=>String(n).padStart(2,'0');
+        text = `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${be} เวลา ${pad(d.getHours())}:${pad(d.getMinutes())} น.`;
+      }
+      const el = document.getElementById('lastUpdatedDate');
+      if(el) el.textContent = text;
+    },
+    error: ()=>{ /* keep static fallback text */ }
+  });
+}
+
+loadMetaCSV();
 loadTobaccoCSV();
 tryLoadCSV();
 </script>
